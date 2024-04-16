@@ -6,16 +6,17 @@ This is the CSA AI Toolkit, it's a set of documents, prompts, scripts and progra
 
 This list is not meant to be an endorsement, however the reality is we have a number of AI vendors that we use (you'd be able to figure it out from the scripts and programs). The list is included here for ease of reference:
 
-|Vendor         |Service        |URL                        |API Docs|Used for|
-|Anthropic      |Claude         |https://claude.ai/         |[Docs](https://docs.anthropic.com/claude/reference/)|General AI|
-|Google         |Gemini         |https://gemini.google.com/ |[Docs](https://ai.google.dev/docs)|General AI|
-|OpenAI         |ChatGPT        |https://chat.openai.com/   |[Docs](https://platform.openai.com/docs/api-reference)|General AI|
-|OpenAI         |My GPTs        |https://chat.openai.com/gpts|[Docs](https://platform.openai.com/docs/api-reference)|RAGBot|
-|CustomGPT      |CustomGPT      |https://app.customgpt.ai/  |[Docs](https://docs.customgpt.ai/)|RAGBot|
-|Promptperfect  |Promptperfect  |https://promptperfect.jina.ai/|[Docs](https://promptperfect.jina.ai/api)|Prompt optimization and other testing|
-|Microsoft      |GitHub CoPilot |https://github.com/features/copilot|N/A (install in VSCode)|Coding assistant|
-|MeetGeek       |MeetGeek       |https://meetgeek.ai/       |[Coming Soon](https://meetgeek.ai/integrations/uploads-api-webhooks)|Meeting transcripts and summarization|
-|Zapier         |Zapier         |https://zapier.com/        |N/A (see specific AI integrations)|Automation and linking of services|
+|Vendor         |Service        |URL                        |API Docs                                                   |Used for|
+|---------------|---------------|---------------------------|-----------------------------------------------------------|--------|
+|Anthropic      |Claude         |https://claude.ai/         |[Docs](https://docs.anthropic.com/claude/reference/)       |General AI|
+|Google         |Gemini         |https://gemini.google.com/ |[Docs](https://ai.google.dev/docs)                         |General AI|
+|OpenAI         |ChatGPT        |https://chat.openai.com/   |[Docs](https://platform.openai.com/docs/api-reference)     |General AI|
+|OpenAI         |My GPTs        |https://chat.openai.com/gpts|[Docs](https://platform.openai.com/docs/api-reference)    |RAGBot|
+|CustomGPT      |CustomGPT      |https://app.customgpt.ai/  |[Docs](https://docs.customgpt.ai/)                         |RAGBot|
+|Promptperfect  |Promptperfect  |https://promptperfect.jina.ai/|[Docs](https://promptperfect.jina.ai/api)               |Prompt optimization and other testing|
+|Microsoft      |GitHub CoPilot |https://github.com/features/copilot|N/A (install in VSCode)                            |Coding assistant|
+|MeetGeek       |MeetGeek       |https://meetgeek.ai/       |[Coming Soon](https://meetgeek.ai/integrations/uploads-api-webhooks)   |Meeting transcripts and summarization|
+|Zapier         |Zapier         |https://zapier.com/        |N/A (see specific AI integrations)                         |Automation and linking of services|
 
 ## General AI Client Tools 
 
