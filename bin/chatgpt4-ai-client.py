@@ -51,7 +51,7 @@ class OpenAIChatbot:
             file.write(f"MAXTOKENS: {self.max_tokens}\n")
             file.write(f"TOKENS_INPUT: {tokens_input}\n")
             file.write(f"TOKENS_OUTPUT: {tokens_output}\n")
-            file.write(f"RESPONSE_OUTPUT: {response_message}\n")
+            file.write(f"RESPONSE_OUTPUT: \n{response_message}\n")
 
 def main():
     parser = argparse.ArgumentParser(description="Run OpenAI chatbot with custom prompts and settings.")
