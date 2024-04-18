@@ -6,14 +6,15 @@ Then determine the commonalities like system prompt, question, etc as per ../REA
 
 Current plan:
 
-Wrapper Class, command line options, etc.
-CustomGPT utility class (get project id, etc.)
-PromptPerfect Class (to improve prompt as an option)
-Output class (meta data and so on)
-ChatGPT4 Class
-ChatGPT Batch Class
-CustomGPT Class
-Claude Class
-Gemini Class
+* Wrapper class, command line options, etc.
+* CustomGPT utility class (get project id, etc.)
+* PromptPerfect class (to improve prompt as an option)
+* Output class (meta data and so on)
+* Prompting classes to get a generated reply
+  * ChatGPT4 class
+  * ChatGPT Batch class
+  * CustomGPT class
+  * Claude class
+  * Gemini class
 
-So ideally we can easily pass queries through all three AIs
+So ideally we can easily pass queries through all three AIs with capabilities like promptperfect auto-tune as an option.
