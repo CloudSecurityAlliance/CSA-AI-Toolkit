@@ -1,6 +1,6 @@
 # CSA-AI-Toolkit
 
-This is the CSA AI Toolkit, it's a set of documents, prompts, scripts and programs to help you use AI effectively at tghe Cloud Security Alliance. These tools are meant for both internal use, and external use, as well as for our communities (e.g. Working Groups, Chapters) and the world in general (much like our open standards such as STARS, CCM, and CAIQ to name a few).
+This is the CSA AI Toolkit, it's a set of documents, prompts, scripts and programs to help you use AI effectively at the Cloud Security Alliance. These tools are meant for both internal use, and external use, as well as for our communities (e.g. Working Groups, Chapters) and the world in general (much like our open standards such as STARS, CCM, and CAIQ to name a few).
 
 ## CSA AI Vendors
 
@@ -13,7 +13,7 @@ This list is not meant to be an endorsement, however the reality is we have a nu
 |OpenAI         |ChatGPT        |https://chat.openai.com/       |[Docs](https://platform.openai.com/docs/api-reference)     |General AI |
 |OpenAI         |My GPTs        |https://chat.openai.com/gpts   |[Docs](https://platform.openai.com/docs/api-reference)     |RAGBot     |
 |CustomGPT      |CustomGPT      |https://app.customgpt.ai/      |[Docs](https://docs.customgpt.ai/)                         |RAGBot     |
-|Promptperfect  |Promptperfect  |https://promptperfect.jina.ai/ |[Docs](https://promptperfect.jina.ai/api)                  |Prompt optimization and other testing|
+|PromptPerfect  |PromptPerfect  |https://promptperfect.jina.ai/ |[Docs](https://promptperfect.jina.ai/api)                  |Prompt optimization and other testing|
 |Microsoft      |GitHub CoPilot |https://github.com/features/copilot|N/A (install in VSCode)                                |Coding assistant|
 |MeetGeek       |MeetGeek       |https://meetgeek.ai/           |[Coming Soon](https://meetgeek.ai/integrations/uploads-api-webhooks)   |Meeting transcripts and summarization|
 |Zapier         |Zapier         |https://zapier.com/            |N/A (see specific AI integrations)                         |Automation and linking of services|

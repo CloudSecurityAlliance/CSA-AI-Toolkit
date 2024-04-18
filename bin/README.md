@@ -18,4 +18,4 @@ Current plan:
   * Claude class
   * Gemini class
 
-So ideally we can easily pass queries through all three AIs with capabilities like promptperfect auto-tune as an option.
+So ideally we can easily pass queries through all three AIs with capabilities like PromptPerfect auto-tune as an option.
