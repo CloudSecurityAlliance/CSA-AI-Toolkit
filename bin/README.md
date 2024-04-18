@@ -10,6 +10,7 @@ Current plan:
 * CustomGPT utility class (get project id, etc.)
 * PromptPerfect class (to improve prompt as an option)
 * Output class (meta data and so on)
+* Logging class (every persona, prompt, content, result, etc.)
 * Prompting classes to get a generated reply
   * ChatGPT4 class
   * ChatGPT Batch class
