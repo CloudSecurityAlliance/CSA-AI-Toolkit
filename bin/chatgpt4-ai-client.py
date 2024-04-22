@@ -77,6 +77,7 @@ class OpenAIChatbot:
         }
 
         ai_output = {
+            "VENDOR": "OpenAI",
             "RUNTIME": datetime.datetime.now().isoformat(),
             "SCRIPTNAME": os.path.basename(sys.argv[0]),
             "AIMODEL": self.model,
