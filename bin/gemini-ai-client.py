@@ -1,61 +1,95 @@
 #!/usr/bin/env python3
 
-import google.generativeai as genai
-import os
 import argparse
+import os
+import sys
+import datetime
+import json
+import google.generativeai as genai
+from google.generativeai import types
 
-# Configure the client with your API key
-genai.configure(api_key=os.environ["GOOGLE_API_KEY"])
+class GoogleGeminiChatbot:
+    def __init__(self, model, temperature, max_tokens):
+        api_key = os.getenv('GOOGLE_API_KEY')
+        if not api_key:
+            raise ValueError("GOOGLE_API_KEY environment variable not set.")
+        
+        genai.configure(api_key=api_key)
+        self.model = genai.GenerativeModel(model)
+        self.temperature = temperature
+        self.max_tokens = max_tokens
 
-# Create an instance of the GenerativeModel using the specified model name
-model = genai.GenerativeModel('gemini-1.0-pro-latest')
+    def read_file(self, filepath):
+        with open(filepath, 'r', encoding='utf-8') as file:
+            return file.read().strip()
 
-def read_prompt_from_file(file_path):
-    """ Reads and returns the content of a text file as a string. """
-    with open(file_path, 'r', encoding='utf-8') as file:
-        return file.read().strip()
+    def create_completion(self, system_prompt_path, user_prompt_path, user_data_path=None):
+        system_prompt = self.read_file(system_prompt_path)
+        user_prompt = self.read_file(user_prompt_path)
 
-def send_interaction_sequence(system_prompt, question):
-    """ Send a sequence of prompts to the model and collect responses. """
-    conversation_history = []
+        if user_data_path:
+            user_data = self.read_file(user_data_path)
+            user_prompt += "\n" + user_data
 
-    # Sequence of interactions
-    prompt_parts = [
-        read_prompt_from_file(system_prompt),  # Read system prompt from file
-        "Understood.",  # System acknowledgment
-        read_prompt_from_file(question)  # Read user question from file
-    ]
+        prompt_sequence = [
+            system_prompt,
+            "Understood.",
+            user_prompt
+        ]
 
-    # Send each part of the prompt sequence to the model
-    for text in prompt_parts:
-        response = model.generate_content(text)
-        conversation_history.append(response.text)
+        responses = []
+        config = types.GenerationConfig(
+            candidate_count=1,
+            max_output_tokens=self.max_tokens,
+            temperature=self.temperature
+        )
 
-    return conversation_history
+        for text in prompt_sequence:
+            response = self.model.generate_content(text, generation_config=config)
+            responses.append(response.text)
 
-def write_responses_to_file(responses, file_path):
-    """ Writes responses to a specified output file. """
-    with open(file_path, 'w', encoding='utf-8') as file:
-        for response in responses:
-            file.write(response + "\n")
+        return responses
+
+    def write_output(self, output_path, args, responses):
+        completion = {
+            "id": None,  # Gemini API may not return an ID by default
+            "model": self.model.model_name,
+            "created": datetime.datetime.now().isoformat(),
+            "responses": responses
+        }
+
+        ai_output = {
+            "VENDOR": "Google Gemini",
+            "RUNTIME": datetime.datetime.now().isoformat(),
+            "SCRIPTNAME": os.path.basename(sys.argv[0]),
+            "AIMODEL": self.model.model_name,
+            "TEMPERATURE": self.temperature,
+            "MAXTOKENS": self.max_tokens,
+            "COMPLETION": completion
+        }
+
+        ai_output.update(vars(args))  # Merging argparse arguments
+
+        ai_output = {key: value for key, value in ai_output.items() if value is not None}
+
+        with open(output_path, 'w', encoding='utf-8') as file:
+            json.dump(ai_output, file, sort_keys=True, indent=2)
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate content using Google Gemini API")
-    parser.add_argument("system_prompt_path", type=str, help="File path to the system prompt text")
-    parser.add_argument("question_path", type=str, help="File path to the user question text")
-    parser.add_argument("-o", "--output", type=str, help="File path to write the output responses")
+    parser = argparse.ArgumentParser(description="Run Google Gemini chatbot with custom prompts and settings.")
+    parser.add_argument('--system', type=str, required=True, help='Path to the file containing the system prompt')
+    parser.add_argument('--user-prompt', type=str, required=True, help='Path to the file containing the user content')
+    parser.add_argument('--user-data', type=str, help='Optional path to additional user data to append to the user prompt')
+    parser.add_argument('--output', type=str, required=True, help='Output file path to write the response and metadata')
+    parser.add_argument('--model', type=str, default='gemini-pro', help='Model name (default: gemini-pro)')
+    parser.add_argument('--temperature', type=float, default=1.0, help='Temperature setting for model (default: 1.0)')
+    parser.add_argument('--max_tokens', type=int, default=4096, help='Maximum number of tokens (default: 4096)')
 
     args = parser.parse_args()
 
-    # Process the interaction sequence using the provided file paths
-    responses = send_interaction_sequence(args.system_prompt_path, args.question_path)
-
-    # Output handling
-    if args.output:
-        write_responses_to_file(responses, args.output)
-    else:
-        for response in responses:
-            print(response)
+    chatbot = GoogleGeminiChatbot(model=args.model, temperature=args.temperature, max_tokens=args.max_tokens)
+    responses = chatbot.create_completion(system_prompt_path=args.system, user_prompt_path=args.user_prompt, user_data_path=args.user_data)
+    chatbot.write_output(args.output, args, responses)
 
 if __name__ == "__main__":
     main()
