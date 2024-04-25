@@ -51,15 +51,15 @@ We also typically have a creation step (e.g. "create X"), and a validation step 
 
 ## Strategy
 
-The general strategy is to use a persona (aka systerm prompt), a user prompt (aka question) and typically data. We do three main stages of work with these: creation, validation, modification, and at each stage we also have feedback loops so we can make improvements. It should be noted that subtle tweaks to prompts can result in hugely different outcomes, especially across different AI foundaiton models and AI systems.
+The general strategy is to use a persona (aka systerm prompt), a user prompt (aka question) and typically data. We do three main stages of work with these: creation/transformation, validation, and modification, and at each stage we also have feedback loops so we can make improvements to that stage and previous ones. It should be noted that subtle tweaks to prompts can result in hugely different outcomes, especially across different AI foundation models and AI systems.
 
 This diagram is supposed to be a circle with create, validate and modification on the outside, and persona/prompt/data in the middle:
 
 ```mermaid
  graph TD;
-  create-->validate;
+  create/transform-->validate;
   validate-->modification;
-  modification-->create;
+  modification-->create/transform;
 
   create-->persona/prompt/data;
   validate-->persona/prompt/data;
@@ -69,3 +69,7 @@ This diagram is supposed to be a circle with create, validate and modification o
   persona/prompt/data-->validate;
   persona/prompt/data-->modification;
 ```
+
+Why we have a modification stage:
+
+While it is possible to modify and improve the prompts used in the creation and transformation, a lot of CSA work can be computationally expensive or difficult to recreate in the AI, having the ability to modify a result and make it better can save us a lot of time and money. Additionally at some point we will want to make transformations to existing work (e.g. "update all mentions of X to include Y"). 
