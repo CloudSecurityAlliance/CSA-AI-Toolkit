@@ -58,4 +58,12 @@ The general strategy is to use a persona (aka systerm prompt), a user prompt (ak
   create-->validate;
   validate-->modification;
   modification-->create;
+
+  create-->persona/prompt/data;
+  validate-->persona/prompt/data;
+  modification-->persona/prompt/data;
+
+  persona/prompt/data-->create;
+  persona/prompt/data-->validate;
+  persona/prompt/data-->modification;
 ```
