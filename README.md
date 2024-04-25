@@ -48,3 +48,14 @@ We also typically have a creation step (e.g. "create X"), and a validation step 
 * https://github.com/CloudSecurityAlliance/CSA-IT-Operations/tree/main/projects/CSA-AI-Project-Assistant
 * https://github.com/CloudSecurityAlliance/CSA-IT-Operations/tree/main/projects/AI-Support-Automation
 * https://github.com/CloudSecurityAlliance/AI-Prompting
+
+## Strategy
+
+The general strategy is to use a persona (aka systerm prompt), a user prompt (aka question) and typically data. We do three main stages of work with these: creation, validation, modification, and at each stage we also have feedback loops so we can make improvements. It should be noted that subtle tweaks to prompts can result in hugely different outcomes, especially across different AI foundaiton models and AI systems.
+
+```mermaid
+ graph TD;
+  create-->validate;
+  validate-->modification;
+  modification-->work;
+```
