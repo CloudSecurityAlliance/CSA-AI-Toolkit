@@ -57,5 +57,5 @@ The general strategy is to use a persona (aka systerm prompt), a user prompt (ak
  graph TD;
   create-->validate;
   validate-->modification;
-  modification-->work;
+  modification-->create;
 ```
