@@ -61,11 +61,11 @@ This diagram is supposed to be a circle with create, validate and modification o
   validate-->modification;
   modification-->create/transform;
 
-  create-->persona/prompt/data;
+  create/transform-->persona/prompt/data;
   validate-->persona/prompt/data;
   modification-->persona/prompt/data;
 
-  persona/prompt/data-->create;
+  persona/prompt/data-->create/transform;
   persona/prompt/data-->validate;
   persona/prompt/data-->modification;
 ```
