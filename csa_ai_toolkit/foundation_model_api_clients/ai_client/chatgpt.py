@@ -2,7 +2,6 @@
 
 import os
 import openai
-import json
 import datetime
 
 def generate_response(model_name, args):
