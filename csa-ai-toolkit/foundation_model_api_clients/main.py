@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import json
 from ai_client import chatgpt
 #from ai_client import claude, chatgpt, gemini
 
@@ -36,8 +37,8 @@ def main():
     else:
         raise ValueError(f"Unsupported model: {args.model}")
 
-    with open(args.output, 'w') as f:
-        f.write(response)
+    with open(args.output, 'w', encoding='utf-8') as file:
+        json.dump(response, file, sort_keys=True, indent=2)
 
 if __name__ == '__main__':
     main()

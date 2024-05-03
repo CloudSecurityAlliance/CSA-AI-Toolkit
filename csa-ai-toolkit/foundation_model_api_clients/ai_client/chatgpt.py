@@ -3,12 +3,18 @@
 import os
 import openai
 import json
+import datetime
 
 def generate_response(model_name, args):
     #
     # FIX THIS!!!!!!! model_name -> model mapping, if chatgpt.... etc?
     #
     model = "gpt-4-0125-preview"
+    #
+    #
+    #
+    TIME_START = datetime.datetime.now().isoformat()
+    
     api_key = os.getenv('OPENAI_API_KEY')
     if not api_key:
         raise ValueError("OPENAI_API_KEY environment variable not set.")
@@ -35,51 +41,59 @@ def generate_response(model_name, args):
             {"role": "user", "content": user_prompt}
         ]
     )
-        
-#    completion = openai.ChatCompletion.create(
-#        model=model_name,
-#        temperature=args.temperature,
-#        max_tokens=args.max_tokens,
-#        messages=[
-#            {"role": "system", "content": system_prompt},
-#            {"role": "user", "content": user_prompt}
-#        ]
-#    )
+    TIME_COMPLETE = datetime.datetime.now().isoformat()
 
-    response_message = completion.choices[0].message.content
-
-    tokens_input = completion.usage.prompt_tokens
-    tokens_output = completion.usage.completion_tokens
-    total_tokens = completion.usage.total_tokens
-
+    try:
+        tokens_input = completion.usage.prompt_tokens
+        tokens_output = completion.usage.completion_tokens
+        total_tokens = completion.usage.total_tokens
+    except AttributeError:
+        tokens_input = tokens_output = total_tokens = None
+    
     serialized_completion = {
-        "id": completion.id,
-        "model": completion.model,
-        "created": completion.created,
+        "id": getattr(completion, 'id', None),
+        "model": getattr(completion, 'model', None),
+        "created": getattr(completion, 'created', None),
+        "system_fingerprint": getattr(completion, 'system_fingerprint', None),
         "choices": [
             {
                 "finish_reason": choice.finish_reason,
                 "index": choice.index,
                 "message": {
-                    "content": choice.message.content,
-                    "role": choice.message.role
+                    "content": getattr(choice.message, 'content', None),
+                    "role": getattr(choice.message, 'role', None)
                 }
-            } for choice in completion.choices
-        ],
+            } for choice in getattr(completion, 'choices', [])
+        ] if hasattr(completion, 'choices') else [],
         "usage": {
             "prompt_tokens": tokens_input,
             "completion_tokens": tokens_output,
             "total_tokens": total_tokens
         }
     }
+    
+    try:
+        response_message = completion.choices[0].message.content
+    except AttributeError:
+        response_message = None
+        
+    try:
+        tokens_input = completion.usage.prompt_tokens
+        tokens_output = completion.usage.completion_tokens
+        total_tokens = completion.usage.total_tokens
+    except AttributeError:
+        tokens_input = tokens_output = total_tokens = None
 
     ai_output = {
         "VENDOR": "OpenAI",
-        "AIMODEL": model_name,
+        "AIMODEL": model,
         "TEMPERATURE": args.temperature,
         "MAXTOKENS": args.max_tokens,
         "TOKENS_INPUT": tokens_input,
         "TOKENS_OUTPUT": tokens_output,
+        "TOKENS_TOTAL": total_tokens,
+        "TIME_START": TIME_START,
+        "TIME_COMPLETE": TIME_COMPLETE,
         "COMPLETION": serialized_completion,
         "RESPONSE_TEXT": response_message
     }
@@ -88,7 +102,4 @@ def generate_response(model_name, args):
 
     ai_output = {key: value for key, value in ai_output.items() if value is not None}
 
-    with open(args.output, 'w', encoding='utf-8') as file:
-        json.dump(ai_output, file, sort_keys=True, indent=2)
-
-    return response_message
+    return ai_output
