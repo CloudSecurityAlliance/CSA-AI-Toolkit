@@ -2,8 +2,16 @@
 
 ## Testing
 
+To test ChatGPT4:
+
 ```
 ./main.py --system ../../test/PERSONA-2024-04-19-000001.txt --user-prompt ../../test/QUESTION-2024-04-19-000002.txt --user-data ../../test/Unused.md --output output.json  --model chatgpt
+```
+
+To test Claude 3:
+
+```
+./main.py --system ../../test/PERSONA-2024-04-19-000001.txt --user-prompt ../../test/QUESTION-2024-04-19-000002.txt --user-data ../../test/Unused.md --output output-claude.json  --model claude-opus
 ```
 
 ## TODO
