@@ -2,7 +2,7 @@
 
 import argparse
 import json
-from ai_client import chatgpt
+from ai_client import chatgpt, claude
 #from ai_client import claude, chatgpt, gemini
 
 def get_model_mapping(model_name):
