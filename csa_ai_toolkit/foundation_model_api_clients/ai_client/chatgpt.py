@@ -30,6 +30,7 @@ def generate_response(model_name, args):
 
     completion = openai.chat.completions.create(
         model=model_name,
+
         temperature=args.temperature,
         max_tokens=args.max_tokens,
         messages=[
