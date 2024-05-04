@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 
 import os
-import openai
+import anthropic
 import datetime
 
 def generate_response(model_name, args):
 
     TIME_START = datetime.datetime.now().isoformat()
     
-    api_key = os.getenv('OPENAI_API_KEY')
-    if not api_key:
-        raise ValueError("OPENAI_API_KEY environment variable not set.")
+    claude_api_key = os.getenv('ANTHROPIC_API_KEY')
+    if not claude_api_key:
+        raise ValueError("ANTHROPIC_API_KEY environment variable not set.")
 
-    openai.api_key = api_key
+    client = anthropic.Anthropic(api_key=claude_api_key)
 
     with open(args.system_prompt, 'r', encoding='utf-8') as file:
         system_prompt = file.read().strip()
@@ -25,17 +25,17 @@ def generate_response(model_name, args):
             user_data = file.read().strip()
             user_prompt += "\n" + user_data
     #
-    # OpenAI ChatGPT API, https://platform.openai.com/docs/api-reference/chat
+    # Anthropic Claude API, https://docs.anthropic.com/claude/reference/messages_post
     #
 
-    completion = openai.chat.completions.create(
-        model=model_name,
+    completion = client.messages.create(
+        model=model_name,        
         temperature=args.temperature,
         max_tokens=args.max_tokens,
+        system=system_prompt,
         messages=[
-            {"role": "system", "content": system_prompt},
             {"role": "user", "content": user_prompt}
-        ]
+        ],
     )
 
     TIME_COMPLETE = datetime.datetime.now().isoformat()
@@ -48,41 +48,38 @@ def generate_response(model_name, args):
     TIME_TO_RUN = duration.total_seconds()
 
     try:
-        tokens_input = completion.usage.prompt_tokens
-        tokens_output = completion.usage.completion_tokens
-        total_tokens = completion.usage.total_tokens
+        tokens_input = completion.usage.input_tokens
+        tokens_output = completion.usage.output_tokens
+        total_tokens = completion.usage.input_tokens + completion.usage.output_tokens
     except AttributeError:
         tokens_input = tokens_output = total_tokens = None
     
+    #
+    # TODO: Handle "content": [
+    #{
+    #  "type": "text",
+    #  "text": "Hello!"
+    #}
+    #],
+    #
     serialized_completion = {
         "id": getattr(completion, 'id', None),
         "model": getattr(completion, 'model', None),
-        "created": getattr(completion, 'created', None),
-        "system_fingerprint": getattr(completion, 'system_fingerprint', None),
-        "choices": [
-            {
-                "finish_reason": choice.finish_reason,
-                "index": choice.index,
-                "message": {
-                    "content": getattr(choice.message, 'content', None),
-                    "role": getattr(choice.message, 'role', None)
-                }
-            } for choice in getattr(completion, 'choices', [])
-        ] if hasattr(completion, 'choices') else [],
+        "stop_reason": completion.stop_reason,
         "usage": {
             "prompt_tokens": tokens_input,
             "completion_tokens": tokens_output,
             "total_tokens": total_tokens
         }
     }
-    
+
     try:
-        response_message = completion.choices[0].message.content
+        response_message = completion.content[0].text
     except AttributeError:
         response_message = None
 
     ai_output = {
-        "$id": "csa-ai-toolkit-chatgpt-JSON-v1_00",
+        "$id": "csa-ai-toolkit-claude-JSON-v1_00",
         "metadata": {
             "system": args.system_prompt,
             "user-prompt": args.user_prompt,
@@ -106,4 +103,4 @@ def generate_response(model_name, args):
 
     ai_output = {key: value for key, value in ai_output.items() if value is not None}
 
-    return ai_output#
+    return ai_output
