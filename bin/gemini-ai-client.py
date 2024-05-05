@@ -48,6 +48,7 @@ class GoogleGeminiChatbot:
             response = self.model.generate_content(text, generation_config=config)
             responses.append(response.text)
 
+        print(responses)
         return responses
 
     def write_output(self, output_path, args, responses):

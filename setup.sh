@@ -5,8 +5,8 @@
 #
 echo "make sure you're in a venv first"
 echo "To create the venv:"
-echo "python3 -m venv .venv"
-echo "echo \".venv\" >> .gitignore"
+echo "python3 -m venv .venv-CSA-AI-Toolkit"
+echo "echo \".venv-CSA-AI-Toolkit\" >> .gitignore"
 echo ""
 echo "Then you need to run"
 echo "source .venv/bin/activate"
