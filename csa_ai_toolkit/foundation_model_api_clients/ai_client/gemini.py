@@ -5,11 +5,12 @@ from google.generativeai import types
 import datetime
 import json
 
-def generate_response(model_name, args):
+def generate_response(model_name, api_key, args):
+    
     TIME_START = datetime.datetime.now().isoformat()
-    api_key = os.getenv('GOOGLE_API_KEY')
-    if not api_key:
-        raise ValueError("GOOGLE_API_KEY environment variable not set.")
+#    api_key = os.getenv('GOOGLE_API_KEY')
+#    if not api_key:
+#        raise ValueError("GOOGLE_API_KEY environment variable not set.")
 
     genai.configure(api_key=api_key)
 

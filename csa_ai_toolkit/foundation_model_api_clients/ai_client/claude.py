@@ -4,15 +4,15 @@ import os
 import anthropic
 import datetime
 
-def generate_response(model_name, args):
+def generate_response(model_name, api_key, args):
 
     TIME_START = datetime.datetime.now().isoformat()
     
-    claude_api_key = os.getenv('ANTHROPIC_API_KEY')
-    if not claude_api_key:
-        raise ValueError("ANTHROPIC_API_KEY environment variable not set.")
+#    claude_api_key = os.getenv('ANTHROPIC_API_KEY')
+#    if not claude_api_key:
+#        raise ValueError("ANTHROPIC_API_KEY environment variable not set.")
 
-    client = anthropic.Anthropic(api_key=claude_api_key)
+    client = anthropic.Anthropic(api_key=api_key)
 
     with open(args.system_prompt, 'r', encoding='utf-8') as file:
         system_prompt = file.read().strip()

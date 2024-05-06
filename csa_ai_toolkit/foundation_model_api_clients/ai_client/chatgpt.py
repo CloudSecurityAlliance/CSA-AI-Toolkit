@@ -4,13 +4,9 @@ import os
 import openai
 import datetime
 
-def generate_response(model_name, args):
+def generate_response(model_name, api_key, args):
 
     TIME_START = datetime.datetime.now().isoformat()
-    
-    api_key = os.getenv('OPENAI_API_KEY')
-    if not api_key:
-        raise ValueError("OPENAI_API_KEY environment variable not set.")
 
     openai.api_key = api_key
 

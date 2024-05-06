@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import argparse
+import os
 import json
 #from ai_client import chatgpt, claude
 from ai_client import claude, chatgpt, gemini
@@ -16,9 +17,31 @@ def get_model_mapping(model_name):
         'claude-sonnet': 'claude-3-sonnet-20240229',
         'claude-opus': 'claude-3-opus-20240229',
         'gemini': 'gemini-1.5-pro-latest'
-        # Add more model mappings as needed
+        # Add more model mappings as needed, also update __init__ and the appropriate
     }
     return model_mapping.get(model_name, model_name)
+
+def get_model_api_key(model_name):
+    # ANTHROPIC_CLAUDE_API_KEY
+    # GOOGLE_GEMINI_API_KEY
+    # OPENAI_CHATGPT_API_KEY
+    model_api_key = {
+        'chatgpt': 'OPENAI_CHATGPT_API_KEY',
+        'claude-haiku': 'ANTHROPIC_CLAUDE_API_KEY',
+        'claude-sonnet': 'ANTHROPIC_CLAUDE_API_KEY',
+        'claude-opus': 'ANTHROPIC_CLAUDE_API_KEY',
+        'gemini': 'GOOGLE_GEMINI_API_KEY'
+        # Add more model mappings as needed, also update __init__ and the appropriate
+    }
+    
+    api_key_env = model_api_key.get(model_name, model_api_key)
+    
+    api_key = os.getenv(api_key_env)
+    
+    if not api_key:
+        raise ValueError("API KEY environment variable not set.")
+
+    return api_key
 
 def main():
     parser = argparse.ArgumentParser(description='AI Client')
@@ -33,19 +56,25 @@ def main():
     args = parser.parse_args()
 
     model_name = get_model_mapping(args.model)
+    api_key = get_model_api_key(args.model)
 
     if args.model.startswith('claude'):
-        response = claude.generate_response(model_name, args)
+        response = claude.generate_response(model_name, api_key, args)
     elif args.model.startswith('chatgpt'):
-        response = chatgpt.generate_response(model_name, args)
+        response = chatgpt.generate_response(model_name, api_key, args)
     elif args.model.startswith('gemini'):
-        response = gemini.generate_response(model_name, args)
+        response = gemini.generate_response(model_name, api_key, args)
     else:
         raise ValueError(f"Unsupported model: {args.model}")
 
     with open(args.output_file, 'w', encoding='utf-8') as file:
         json.dump(response, file, sort_keys=True, indent=2)
 
+
+
+# TODO: read files and set variables for system-prompt, user-prompt, user-data, and output-file
+
+# TODO: add support for top_p, top_k, and a warning if more than one of top_p, top_k or temperature is present
 # TODO: add max-tokens check and data to the get_model_mapping() function, error if the number is to high? 
 # TOOD: have a --max-tokens of "max"?
 
