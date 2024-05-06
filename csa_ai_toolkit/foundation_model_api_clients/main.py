@@ -2,8 +2,8 @@
 
 import argparse
 import json
-from ai_client import chatgpt, claude
-#from ai_client import claude, chatgpt, gemini
+#from ai_client import chatgpt, claude
+from ai_client import claude, chatgpt, gemini
 
 def get_model_mapping(model_name):
     # ChatGPT model list https://platform.openai.com/docs/models
