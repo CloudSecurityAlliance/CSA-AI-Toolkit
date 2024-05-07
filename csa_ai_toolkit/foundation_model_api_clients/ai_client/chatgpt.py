@@ -74,7 +74,7 @@ def generate_response(model_name, api_key, system_prompt, user_prompt, args):
         response_message = None
 
     ai_output = {
-        "$id": "csa-ai-toolkit-chatgpt-JSON-v1_00",
+        "$id": "csa-ai-toolkit-openai-chatgpt4-JSON-v1_00",
         "metadata": {
             "system": args.system_prompt,
             "user-prompt": args.user_prompt,
