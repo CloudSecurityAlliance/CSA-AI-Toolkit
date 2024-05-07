@@ -5,36 +5,24 @@ from google.generativeai import types
 import datetime
 import json
 
-def generate_response(model_name, api_key, args):
-    
+def generate_response(model_name, api_key, system_prompt, user_prompt, args):
+
     TIME_START = datetime.datetime.now().isoformat()
-#    api_key = os.getenv('GOOGLE_API_KEY')
-#    if not api_key:
-#        raise ValueError("GOOGLE_API_KEY environment variable not set.")
 
     genai.configure(api_key=api_key)
 
-    with open(args.system_prompt, 'r', encoding='utf-8') as file:
-        system_prompt = file.read().strip()
+    gemini_model = genai.GenerativeModel(
+        model_name=model_name,
+        system_instruction=system_prompt
+        )
 
-    with open(args.user_prompt, 'r', encoding='utf-8') as file:
-        user_prompt = file.read().strip()
+#    prompt_sequence = [
+#        system_prompt,
+#        "Understood.",
+#        user_prompt
+#    ]
 
-    if args.user_data:
-        with open(args.user_data, 'r', encoding='utf-8') as file:
-            user_data = file.read().strip()
-        user_prompt += "\n" + user_data
-
-    #########################################################
-    gemini_model = genai.GenerativeModel(model_name)
-
-    prompt_sequence = [
-        system_prompt,
-        "Understood.",
-        user_prompt
-    ]
-
-    responses = []
+#    responses = []
     config = types.GenerationConfig(
         candidate_count=1,
         max_output_tokens=args.max_tokens,
@@ -44,26 +32,22 @@ def generate_response(model_name, api_key, args):
     #
     # Faking system prompt for now
     #
-    for text in prompt_sequence:
-        response = gemini_model.generate_content(text, generation_config=config)
-        responses.append(response.text)
+#    for text in prompt_sequence:
+#        response = gemini_model.generate_content(text, #generation_config=config)
+#        responses.append(response.text)
 
-#    try:
-# 
-#
-#    except Exception as e:
-#        print(f"Error during API call: {e}")
-#        return None
+    response = gemini_model.generate_content(user_prompt, generation_config=config)
+
     #########################################################
 
-    TIME_COMPLETE = datetime.datetime.now().isoformat()
+    TIME_FINISHED = datetime.datetime.now().isoformat()
     time_start = datetime.datetime.fromisoformat(TIME_START)
-    time_complete = datetime.datetime.fromisoformat(TIME_COMPLETE)
+    time_complete = datetime.datetime.fromisoformat(TIME_FINISHED)
+
     # Calculate the duration
     duration = time_complete - time_start
     TIME_TO_RUN = duration.total_seconds()
 
-    # Prepare the response output
     ai_output = {
         "$id": "csa-ai-toolkit-gemini-JSON-v1_00",
         "metadata": {
@@ -75,10 +59,10 @@ def generate_response(model_name, api_key, args):
             "temperature": args.temperature,
             "max_tokens": args.max_tokens,
             "time_start": TIME_START,
-            "time_complete": TIME_COMPLETE,
+            "time_complete": TIME_FINISHED,
             "time_to_run": TIME_TO_RUN
         },
-        "response": responses,
+        #"response": response,
         "extracted_data": response.text
     }
 

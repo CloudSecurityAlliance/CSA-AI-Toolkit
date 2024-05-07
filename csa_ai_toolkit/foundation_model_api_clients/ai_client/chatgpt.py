@@ -4,25 +4,11 @@ import os
 import openai
 import datetime
 
-def generate_response(model_name, api_key, args):
+def generate_response(model_name, api_key, system_prompt, user_prompt, args):
 
     TIME_START = datetime.datetime.now().isoformat()
 
     openai.api_key = api_key
-
-    with open(args.system_prompt, 'r', encoding='utf-8') as file:
-        system_prompt = file.read().strip()
-
-    with open(args.user_prompt, 'r', encoding='utf-8') as file:
-        user_prompt = file.read().strip()
-
-    if args.user_data:
-        with open(args.user_data, 'r', encoding='utf-8') as file:
-            user_data = file.read().strip()
-            user_prompt += "\n" + user_data
-    #
-    # OpenAI ChatGPT API, https://platform.openai.com/docs/api-reference/chat
-    #
 
     completion = openai.chat.completions.create(
         model=model_name,
@@ -34,10 +20,10 @@ def generate_response(model_name, api_key, args):
         ]
     )
 
-    TIME_COMPLETE = datetime.datetime.now().isoformat()
+    TIME_FINISHED = datetime.datetime.now().isoformat()
 
     time_start = datetime.datetime.fromisoformat(TIME_START)
-    time_complete = datetime.datetime.fromisoformat(TIME_COMPLETE)
+    time_complete = datetime.datetime.fromisoformat(TIME_FINISHED)
 
     # Calculate the duration
     duration = time_complete - time_start
@@ -91,7 +77,7 @@ def generate_response(model_name, api_key, args):
             "tokens_output": tokens_output,
             "tokens_total": total_tokens,
             "time_start": TIME_START,
-            "time_complete": TIME_COMPLETE,
+            "time_complete": TIME_FINISHED,
             "time_to_run": TIME_TO_RUN
         },
         "extracted_data": response_message,

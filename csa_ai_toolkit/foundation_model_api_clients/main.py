@@ -3,16 +3,23 @@
 import argparse
 import os
 import json
-#from ai_client import chatgpt, claude
 from ai_client import claude, chatgpt, gemini
 
+#
+# TODO: make this a class
+#
+
 def get_model_mapping(model_name):
+    #
+    # In general we default to the latest/most capable model available
+    #
     # ChatGPT model list https://platform.openai.com/docs/models
     # Claude Model list: https://docs.anthropic.com/claude/docs/models-overview
     # Gemini model lisT: https://ai.google.dev/gemini-api/docs/models/gemini
 
     model_mapping = {
         'chatgpt': 'gpt-4-turbo-preview',
+        'claude': 'claude-3-opus-20240229',
         'claude-haiku': 'claude-3-haiku-20240307',
         'claude-sonnet': 'claude-3-sonnet-20240229',
         'claude-opus': 'claude-3-opus-20240229',
@@ -22,9 +29,13 @@ def get_model_mapping(model_name):
     return model_mapping.get(model_name, model_name)
 
 def get_model_api_key(model_name):
+    #
+    # We can also add other methods like file/secret manager etc.
+    #
     # ANTHROPIC_CLAUDE_API_KEY
     # GOOGLE_GEMINI_API_KEY
     # OPENAI_CHATGPT_API_KEY
+
     model_api_key = {
         'chatgpt': 'OPENAI_CHATGPT_API_KEY',
         'claude-haiku': 'ANTHROPIC_CLAUDE_API_KEY',
@@ -58,12 +69,26 @@ def main():
     model_name = get_model_mapping(args.model)
     api_key = get_model_api_key(args.model)
 
+#
+# TODO: split this into a def.
+#
+    with open(args.system_prompt, 'r', encoding='utf-8') as file:
+        system_prompt = file.read().strip()
+
+    with open(args.user_prompt, 'r', encoding='utf-8') as file:
+        user_prompt = file.read().strip()
+
+    if args.user_data:
+        with open(args.user_data, 'r', encoding='utf-8') as file:
+            user_data = file.read().strip()
+            user_prompt += "\n" + user_data
+
     if args.model.startswith('claude'):
-        response = claude.generate_response(model_name, api_key, args)
+        response = claude.generate_response(model_name, api_key, system_prompt, user_prompt, args)
     elif args.model.startswith('chatgpt'):
-        response = chatgpt.generate_response(model_name, api_key, args)
+        response = chatgpt.generate_response(model_name, api_key, system_prompt, user_prompt, args)
     elif args.model.startswith('gemini'):
-        response = gemini.generate_response(model_name, api_key, args)
+        response = gemini.generate_response(model_name, api_key, system_prompt, user_prompt, args)
     else:
         raise ValueError(f"Unsupported model: {args.model}")
 
