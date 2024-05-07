@@ -1,12 +1,19 @@
 #!/usr/bin/env python3
 
-import os
+# Weird spacing so all three files line up in an editor
+
 import openai
+
+
 import datetime
 
 def generate_response(model_name, api_key, system_prompt, user_prompt, args):
 
     TIME_START = datetime.datetime.now().isoformat()
+
+    #
+    # OpenAI ChatGPT API: https://platform.openai.com/docs/api-reference
+    #
 
     openai.api_key = api_key
 
@@ -19,6 +26,9 @@ def generate_response(model_name, api_key, system_prompt, user_prompt, args):
             {"role": "user", "content": user_prompt}
         ]
     )
+
+
+
 
     TIME_FINISHED = datetime.datetime.now().isoformat()
 

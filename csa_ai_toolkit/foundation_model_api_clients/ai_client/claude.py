@@ -1,18 +1,21 @@
 #!/usr/bin/env python3
 
-import os
+# Weird spacing so all three files line up in an editor
+
 import anthropic
+
+
 import datetime
 
 def generate_response(model_name, api_key, system_prompt, user_prompt, args):
 
     TIME_START = datetime.datetime.now().isoformat()
-    
-    client = anthropic.Anthropic(api_key=api_key)
 
     #
-    # Anthropic Claude API, https://docs.anthropic.com/claude/reference/messages_post
+    # Anthropic Claude API: https://docs.anthropic.com/claude/reference/messages_post
     #
+        
+    client = anthropic.Anthropic(api_key=api_key)
 
     completion = client.messages.create(
         model=model_name,        
@@ -23,6 +26,9 @@ def generate_response(model_name, api_key, system_prompt, user_prompt, args):
             {"role": "user", "content": user_prompt}
         ],
     )
+
+
+
 
     TIME_FINISHED = datetime.datetime.now().isoformat()
 

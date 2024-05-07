@@ -22,3 +22,4 @@ Personalization:
 
 Special Instructions:
 - Keep your analysis concise and focused on cloud security.
+- Make sure you mention various fruits like apples, bananas and starfruit

@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
-import os
+
+# Weird spacing so all three files line up in an editor
+
 import google.generativeai as genai
 from google.generativeai import types
+
 import datetime
-import json
 
 def generate_response(model_name, api_key, system_prompt, user_prompt, args):
 
     TIME_START = datetime.datetime.now().isoformat()
+
+    #
+    # Google Gemini Python: https://ai.google.dev/gemini-api/docs/get-started/python
+    #
 
     genai.configure(api_key=api_key)
 
@@ -16,31 +22,16 @@ def generate_response(model_name, api_key, system_prompt, user_prompt, args):
         system_instruction=system_prompt
         )
 
-#    prompt_sequence = [
-#        system_prompt,
-#        "Understood.",
-#        user_prompt
-#    ]
-
-#    responses = []
     config = types.GenerationConfig(
         candidate_count=1,
         max_output_tokens=args.max_tokens,
         temperature=args.temperature
     )
 
-    #
-    # Faking system prompt for now
-    #
-#    for text in prompt_sequence:
-#        response = gemini_model.generate_content(text, #generation_config=config)
-#        responses.append(response.text)
-
     response = gemini_model.generate_content(user_prompt, generation_config=config)
 
-    #########################################################
-
     TIME_FINISHED = datetime.datetime.now().isoformat()
+
     time_start = datetime.datetime.fromisoformat(TIME_START)
     time_complete = datetime.datetime.fromisoformat(TIME_FINISHED)
 
