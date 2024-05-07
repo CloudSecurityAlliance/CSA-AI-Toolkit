@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "csa_ai_toolkit"
+version = "0.1.0"
+description = "A toolkit for interacting with various foundation AI models."
+authors = ["Kurt Seifried <kseifried@cloudsecurityalliance.org>"]
+license = "Apache-2.0"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+# TODO: add actual dependancies
+
+[tool.poetry.dev-dependencies]
+pytest = "^6.2"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.urls]
+homepage = "https://github.com/CloudSecurityAlliance/CSA-AI-Toolkit/tree/main/csa_ai_toolkit/foundation_model_api_clients"
+repository = "https://github.com/CloudSecurityAlliance/CSA-AI-Toolkit"
+documentation = "https://github.com/CloudSecurityAlliance/CSA-AI-Toolkit/blob/main/csa_ai_toolkit/foundation_model_api_clients/README.md"
