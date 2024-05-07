@@ -40,7 +40,7 @@ def generate_response(model_name, api_key, system_prompt, user_prompt, args):
     TIME_TO_RUN = duration.total_seconds()
 
     ai_output = {
-        "$id": "csa-ai-toolkit-gemini-JSON-v1_00",
+        "$id": "csa-ai-toolkit-google-gemini1.5-JSON-v1_00",
         "metadata": {
             "system": args.system_prompt,
             "user-prompt": args.user_prompt,
