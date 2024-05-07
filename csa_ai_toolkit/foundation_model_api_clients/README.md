@@ -1,5 +1,11 @@
 # Notes, todo, etc.
 
+## import:
+
+```
+from csa_ai_toolkit.foundation_model_api_clients import FoundationModelClient
+```
+
 ## Testing
 
 To test ChatGPT4:
