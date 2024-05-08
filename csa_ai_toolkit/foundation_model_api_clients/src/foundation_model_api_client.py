@@ -25,6 +25,7 @@ class FoundationModelAPIClient:
     def get_model_api_key(self):
         model_api_key = {
             'chatgpt': 'OPENAI_CHATGPT_API_KEY',
+            'claude': 'ANTHROPIC_CLAUDE_API_KEY',
             'claude-haiku': 'ANTHROPIC_CLAUDE_API_KEY',
             'claude-sonnet': 'ANTHROPIC_CLAUDE_API_KEY',
             'claude-opus': 'ANTHROPIC_CLAUDE_API_KEY',
