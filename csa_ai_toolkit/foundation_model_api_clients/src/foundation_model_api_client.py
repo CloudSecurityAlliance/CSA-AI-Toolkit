@@ -63,7 +63,7 @@ def main():
     parser.add_argument('--max-tokens', type=int, default=4096, help='Maximum number of tokens (default: 4096)')
 
     args = parser.parse_args()
-    client = AIModelClient(args.model)
+    client = FoundationModelAPIClient(args.model)
 
     with open(args.system_prompt, 'r', encoding='utf-8') as file:
         system_prompt = file.read().strip()
