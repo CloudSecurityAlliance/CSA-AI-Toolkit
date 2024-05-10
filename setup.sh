@@ -9,7 +9,7 @@ echo "python3 -m venv .venv-CSA-AI-Toolkit"
 echo "echo \".venv-CSA-AI-Toolkit\" >> .gitignore"
 echo ""
 echo "Then you need to run"
-echo "source .venv/bin/activate"
+echo "source .venv-CSA-AI-Toolkit/bin/activate"
 echo ""
 sleep 1
 echo 5
