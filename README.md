@@ -1,3 +1,5 @@
+OBSOLETE. PLEASE SEE [CSA AI Tool Setup](https://github.com/CloudSecurityAlliance/CSA-AI-Tool-Setup).
+
 # CSA-AI-Toolkit
 
 This is the CSA AI Toolkit, it's a set of documents, prompts, scripts and programs to help you use AI effectively at the Cloud Security Alliance. These tools are meant for both internal use, and external use, as well as for our communities (e.g. Working Groups, Chapters) and the world in general (much like our open standards such as STARS, CCM, and CAIQ to name a few).
